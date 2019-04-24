@@ -1,0 +1,46 @@
+#pragma once
+#include "stdio.h"
+
+#ifndef _WIN32
+#define _LINUX_MAC //Should be defined unless using Visual Studio
+#endif
+
+template <class T>
+void _Release1DBuffer(T* pBuffer)
+{
+	if(pBuffer!=NULL)
+		delete []pBuffer;
+	pBuffer=NULL;
+}
+
+template <class T>
+void _Release2DBuffer(T** pBuffer,size_t nElements)
+{
+	for(size_t i=0;i<nElements;i++)
+		delete [](pBuffer[i]);
+	delete []pBuffer;
+	pBuffer=NULL;
+}
+
+#define _MATLAB
+
+#ifdef _MATLAB
+#include "mex.h"
+#endif
+
+
+#ifdef _LINUX_MAC
+
+template <class T1,class T2>
+T1 __min(T1 a, T2 b) 
+{
+  return (a>b)?b:a;
+}
+
+template <class T1,class T2>
+T1 __max(T1 a, T2 b)
+{
+  return (a<b)?b:a;
+}
+
+#endif
